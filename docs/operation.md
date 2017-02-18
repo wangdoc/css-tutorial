@@ -98,7 +98,7 @@
 .clearfix:after{
   visibility:hidden;
   display:block;
-  font6size:0;
+  font-size:0;
   content:" ";
   clear:both;
   height:0;
