@@ -87,7 +87,17 @@
 }
 ```
 
-（8）参考链接
+（8）方法六
+
+```css
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
+
+（9）参考链接
 
 - [Alignment and sizing in CSS](https://github.com/timseverien/timseverien.github.io/blob/master/_posts/2013-11-25-css-alignment-and-sizing.md)
 
