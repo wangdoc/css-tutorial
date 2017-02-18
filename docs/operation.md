@@ -97,10 +97,9 @@
 }
 ```
 
+（9）参考链接
 
-（7）参考链接
-
-- [Alignment and sizing in CSS](https://timseverien.com/articles/snippets/136-alignment-sizing-css/)
+- [Alignment and sizing in CSS](https://github.com/timseverien/timseverien.github.io/blob/master/_posts/2013-11-25-css-alignment-and-sizing.md)
 
 ## 清理浮动
 
@@ -109,7 +108,7 @@
 .clearfix:after{
   visibility:hidden;
   display:block;
-  font6size:0;
+  font-size:0;
   content:" ";
   clear:both;
   height:0;
