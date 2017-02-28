@@ -53,3 +53,25 @@ vertical-align: middle;
 
 这个命令对设为`display: table-cell`的元素也有效，可以控制元素在单元格之中的垂直对齐方式。这时，一般使用`top`、`middle`和`bottom`等值。
 
+## tab-size
+
+`tab-size`属性设置 Tab 键的宽度，可以设置为整数（表示多少个空格），也可以设置为具体的长度单位。
+
+```css
+/* 整数植 */
+tab-size: 4;
+tab-size: 0;
+
+/* 长度单位 */
+tab-size: 10px;
+tab-size: 2em;
+```
+
+该属性常用于`<pre>`标签之中。
+
+```css
+pre {-moz-tab-size: 16;} /* Code for Firefox */
+pre {-o-tab-size: 16;} /* Code for Opera 10.6-12.1 */
+pre {tab-size: 16;}
+```
+
