@@ -78,6 +78,8 @@ grid-template-columns: 2fr 1fr 1fr;
 grid-template-columns: 300px 1fr 3fr 20%;
 ```
 
+`fr`会在剩余空间之中先减去`grid-gap`再进行[分配](https://twitter.com/jaffathecake/status/856884644704387072)，如果指定为百分比宽度，就没这个效果。
+
 ## grid-column-gap，grid-row-gap
 
 `grid-column-gap`指定栏与栏之间的间距，`grid-row-gap`指定行与行之间的间距。`grid-gap`是这两个属性的简写。
