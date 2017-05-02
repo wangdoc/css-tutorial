@@ -49,8 +49,50 @@ h3 {
 }
 ```
 
-`clear`属性可以取三个值。
+`clear`属性可以取四个值。
 
 - `left`：左侧不能有浮动元素
 - `right`：右侧不能有浮动元素
 - `both`：两侧不能有浮动元素
+- `none`：默认值，不需要清理浮动
+
+另一种情况是，容器内部的文本不希望紧贴浮动的元素，这时也可以使用`clear`属性进行清理浮动。
+
+## 对容器的影响
+
+如果一个容器里面所有子元素都是浮动的，就会导致这个容器变成一个空容器，高度缩为`0`。因为布局的时候，浮动的所有子元素是脱离父容器计算位置的，这导致渲染引擎认为这个容器是空元素。
+
+解决这个问题，有三种方法。
+
+（1）父容器也进行浮动。
+
+```css
+.container-with-float{
+    float: left;
+    width: 100%;
+}
+```
+
+（2）父容器添加`overflow: hidden`
+
+```css
+.container-with-overflow{
+    overflow: hidden;
+}
+```
+
+添加`overflow: hidden`以后，容器计算高度的时候，就会自动将浮动的子元素考虑在内。
+
+（3）CSS 生成内容
+
+CSS 生成内容以后，就不会被渲染引擎当成是一个空元素。
+
+```css
+.container-with-generated-content:after{
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+```
