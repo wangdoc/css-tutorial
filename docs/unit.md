@@ -1,5 +1,26 @@
 # CSS的单位
 
+## inherit
+
+大多数 CSS 属性默认继承它的父元素的设定，但是有一些属性默认不继承。比如，`input`元素和`textarea`元素的 CSS 属性，都是不继承父元素的。这时，可以强制它们继承。
+
+```css
+* {
+  font-family: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+html {
+  font-size: 125%;
+  font-family: sans-serif;
+  line-height: 1.5;
+  color: #222;
+}
+```
+
+上面代码中，首先强制所有元素的`font-family`、`line-height`和`color`属性都继承父元素，然后在网页的根元素`html`上设置具体的值。
+
 ## em
 
 `em`表示一个单位的字体大小。

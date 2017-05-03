@@ -96,3 +96,14 @@ CSS 生成内容以后，就不会被渲染引擎当成是一个空元素。
     visibility: hidden;
 }
 ```
+
+还有另一种写法。
+
+```css
+.grid:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+```
+
