@@ -2,7 +2,33 @@
 
 响应式布局（responsive）的含义是，网页会根据不同的媒介，自动采用不同的 CSS 规则。它主要通过 media 命令实现。
 
-`media`命令的含义是，规定CSS规则生效的媒介。
+`media`命令用来规定 CSS 规则生效的媒介。`@media`命令后面使用关键词，指定生效的条件。
+
+```css
+@media print {
+   …
+}
+
+@media screen {
+   …
+}
+```
+
+上面代码中，打印和显示屏分别使用不同的 CSS 规则。
+
+媒介名称之前，还可以使用`not`和`only`关键字。
+
+```css
+@media not screen {
+   …
+}
+
+@media only screen {
+   …
+}
+```
+
+`@media`还允许使用表达式，指定 CSS 生效的条件。表达式可以放在圆括号之中。
 
 ```css
 @media (min-width: 800px) {
@@ -14,7 +40,7 @@
 
 上面代码中，`media`命令规定，只有在屏幕宽度大于等于`800px`时，`p`元素的大小才等于`18px`。
 
-`media`命令的一种用法是，为不同的设备指定不同的背景图片。
+如果同时需要满足多个条件，可以使用`and`关键字。下面的例子是为不同的设备指定不同的背景图片。
 
 ```css
 /* default is desktop image */
@@ -25,6 +51,7 @@
 }
 ```
 
+下面是另一个例子。
 
 ```css
 .component__header {
