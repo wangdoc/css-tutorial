@@ -38,3 +38,10 @@ minmax(auto, 300px)
 minmax(min-content, auto)
 ```
 
+## image-set()
+
+`image-set()`用来选取符合响应式条件的图片。
+
+```css
+background-image: image-set( "foo.png" 1x, "foo-2x.png" 2x);
+```
