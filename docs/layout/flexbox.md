@@ -33,20 +33,20 @@
 
 ## 一、Flex布局是什么？
 
-Flex是flexible box的缩写，意为弹性的盒状布局，中文可以译为“弹性布局”。它的设计目的是为盒状模型提供最大的灵活性，可以在不知道容器大小或者容器大小可变的情况下，指定布局方式。
+Flex 是 flexible box 的缩写，意为弹性的盒状布局，中文可以译为“弹性布局”。它的设计目的是为盒状模型提供最大的灵活性，可以在不知道容器大小或者容器大小可变的情况下，指定布局方式。
 
-任何一个容器都可以指定为Flex布局。
+任何一个容器都可以指定为 Flex 布局。
 
 ```css
-.box{
+.box {
   display: flex;
 }
 ```
 
-行内元素也可以使用Flex布局。
+行内元素也可以使用 Flex 布局。
 
 ```css
-.box{
+.box {
   display: inline-flex;
 }
 ```
@@ -64,17 +64,17 @@ Webkit内核的浏览器，必须加上-webkit前缀。
 
 ## 二、基本概念
 
-采用Flex布局的元素，称为Flex容器（flex container），简称“容器”。它的所有子元素自动成为容器成员，称为Flex项目（flex item），简称“项目”。
+采用 Flex 布局的元素，称为 Flex 容器（flex container），简称“容器”。它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称“项目”。
 
 ![](http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071004.png)
 
 容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end；交叉轴的开始位置叫做cross start，结束位置叫做cross end。
 
-项目默认沿主轴排列，在主轴占据的空间叫做main size，在交叉轴占据的空间叫做cross size。
+项目默认沿主轴排列，在主轴占据的空间叫做 main size，在交叉轴占据的空间叫做 cross size。
 
 ## 三、容器的属性
 
-以下6个属性设置在容器上。
+以下 6 个属性设置在容器上。
 
 > - flex-direction
 > - flex-wrap
@@ -135,6 +135,15 @@ Webkit内核的浏览器，必须加上-webkit前缀。
 ```css
 .box {
   flex-flow: <flex-direction> || <flex-wrap>;
+}
+```
+
+下面是一个例子。
+
+```css
+div {
+	display: flex;
+	flex-flow: row wrap;
 }
 ```
 
