@@ -2,6 +2,8 @@
 
 ## 基本用法
 
+首先，需要使用`keyframes`定义一个动画。
+
 ```css
 keyframes rotation {
   from {
@@ -13,12 +15,54 @@ keyframes rotation {
 }
 ```
 
-将所定义的动画添加到指定元素。（[Demo](http://demo.hongkiat.com/css3-animation-steps/)）
+上面代码中，`keyframes`关键字后面是动画名称（上例是`rotation`），大括号内部是关键帧，`from`表示起始帧，`to`表示结束帧，其他帧由浏览器自动计算出来。
+
+另一种定义方法是使用百分比，定义关键帧，`from`就是`0%`，`to`就是`100%`。
+
+```css
+@keyframes color {
+  0% {
+    fill: #99002f
+  }
+  50% {
+    fill: #ffc426
+  }
+  100% {
+    fill: #99002f
+  }
+}
+```
+
+使用的时候，通过`animation`属性将动画赋给指定元素即可。（[Demo](http://demo.hongkiat.com/css3-animation-steps/)）
 
 ```css
 .second {
   animation: rotation 60s steps(60) infinite;
   transform-origin: 100% 50%;
+}
+```
+
+`animation`属性是一个简写形式，它包括以下一些子属性。
+
+- animation-name
+- animation-duration
+- animation-timing-function
+- animation-delay
+- animation-iteration-count
+- animation-direction
+- animation-fill-mode
+
+```css
+svg path {
+  animation: color 2s infinite cubic-bezier(.85,.01,.25,1);
+}
+
+/* 等同于 */
+svg path {
+  animation-name: color;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(.85,.01,.25,1);
 }
 ```
 
