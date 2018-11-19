@@ -2,7 +2,9 @@
 
 ## 变量
 
-`：root`选择器之中，可以设置CSS变量并赋值。
+CSS 提供的属性（比如`font-weight`、`line-height`）都是标准里面给出的，但是 CSS 也允许用户自定义属性，这又称为“CSS 变量”。
+
+`:root`选择器之中，可以设置CSS变量并赋值。
 
 ```css
 :root {
@@ -11,6 +13,14 @@
   --blur: 10px;
 }
 ```
+
+变量也可以在行内定义。
+
+```html
+<html style = "--color: red;">
+```
+
+所有自定义属性都必须以两个连词线开头，并且大小写敏感。
 
 使用时，通过`var`函数取出变量。
 
@@ -23,40 +33,52 @@ img {
 }
 ```
 
-注意，变量名是大小写敏感的。
-
-变量值可以被覆盖。
-
-```css
-:root {
-  --my-color: white;
-}
-button {
-  background-color: var(--my-color, blue);
-}
-button.special {
-  --my-color: red;
-}
-```
-
 `var()`函数接受第二个参数，指定如果读取变量失败时的默认值。
 
 ```css
 width: var(--custom-width, 20%);
 ```
 
-变量可以嵌套。
+下面是另一个例子。
 
 ```css
---base-color: #f93ce9;
---background-gradient: linear-gradient(to top, var(--base-color), #444);
+foo {
+    padding: var(--gutter, 10px 0 0 5px);
+}
+```
+
+自定义属性可以是全局的，也可以是局部的。在`:root`选择器里面定义的，就是全局变量，可以在任何其他选择器里面读取。而在其他选择器里面定义，就是局部变量，只能在该选择器里面读取。
+
+下面代码中，局部变量可以覆盖全局变量。
+
+```css
+:root { --text-color: green; }
+div { --text-color: blue; }
+.error { --text-color: red; }
+
+* {
+  color: var(--text-color);
+}
+```
+
+上面代码中，一般文字是绿色，`div`元素的文字是蓝色，`error`类的文字是红色。
+
+定义变量的时候，也可以读取其他变量。
+
+```css
+:root {
+  --brand-color: red;
+  --header-text-color: var(--brand-color);
+}
 ```
 
 变量也可以与`calc`函数结合使用。
 
 ```css
---container-width: 1000px;
-max-width: calc(var(--container-width) / 2);
+:root {
+  --container-width: 1000px;
+  max-width: calc(var(--container-width) / 2);
+}
 ```
 
 变量不包含单位时，不能直接添加单位。
@@ -75,7 +97,11 @@ max-width: calc(var(--container-width) / 2);
 }
 ```
 
-JavaScript可以操作这些变量。
+## 参考链接
+
+- [CSS Variables Guide](https://nearsoft.com/blog/css-variables-guide/), Tony Martinez
+
+JavaScript 可以操作这些变量。
 
 ```javascript
 element.style
@@ -91,7 +117,7 @@ element.style
 
 ```javascript
 // 取得变量值
-var styles = getComputedStyle(document.documentElement);
+var styles = window.getComputedStyle(document.documentElement);
 var bgValue = String(styles.getPropertyValue('--background')).trim();
 
 // 设置变量值
