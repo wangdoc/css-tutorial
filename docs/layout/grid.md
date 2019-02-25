@@ -134,10 +134,10 @@ grid-auto-flow: column;
 
 ## 网格容器
 
-网格容器是指定使用网格布局的有元素。
+网格容器是指定使用网格布局的元素。
 
 ```css
-.container{
+.container { 
   display: grid | inline-grid	
 }
 ```
@@ -197,6 +197,16 @@ grid-auto-flow: column;
 ```
 
 上面代码中，项目`item-7`在原来的位置跨两行、跨两列。
+
+`grid-column`和`grid-row`也可以指定网格的名字。
+
+```css
+.item {
+  grid-column: foo;
+}
+```
+
+上面代码中，`.item`的位置在名字叫做`foo`的那一列（column）。
 
 注意，如果原来的位置放置不下该项目，容器会自动重新布局。
 
@@ -277,7 +287,7 @@ grid-template-columns: repeat(3, 33.33%);
 
 ## fr 单位
 
-`fr`表示网格自动将宽度划分成指定单位。
+`fr`是一个表示比例关系的单位。
 
 ```css
 grid-template-columns: 1fr 1fr 1fr;
@@ -291,7 +301,7 @@ grid-template-columns: 300px 1fr 3fr 20%;
 
 ## grid-column-gap，grid-row-gap
 
-`grid-column-gap`指定栏与栏之间的间距，`grid-row-gap`指定行与行之间的间距。`grid-gap`是这两个属性的简写。
+`grid-column-gap`指定栏与栏的间距，`grid-row-gap`指定行与行的间距。`grid-gap`是这两个属性的简写。
 
 ```css
 grid-gap: 20px;
