@@ -2,11 +2,13 @@
 
 ## 概述
 
-CSS Grid（网格布局）是一种布局解决方案，用来完成类似乐高积木那样的平面组合布局。
+CSS Grid（网格布局）是一种布局解决方案，通过网格来划分二维空间，以完成类似乐高积木那样的平面组合布局。
 
 它与 Flexbox 布局的主要区别在于，它是二维布局，用于划分二维平面，适合整个页面的全局布局；Flexbox 是一维布局，是针对一根轴线的布局，主要用于一个组件的布局。
 
 Grid 布局分成两个部分：首先定义网格，然后将元素放置在网格上。
+
+它的基本做法是，先用`display: grid`指定容器使用网格布局，然后设置列（`grid-template-columns`）和行（`grid-template-rows`），最后指定子元素在网格里面的位置（`grid-column`和`grid-row`）。
 
 ## 基本概念
 
@@ -18,7 +20,9 @@ Grid 布局分成两个部分：首先定义网格，然后将元素放置在网
 
 Grid 布局的基本元素是行（row）和列（column）。行与行之间、列与列之间存在间距（gutter）。行与列的交叉部分，就是一个单元格（cell）。多个单元可以组成一个区域（area）。
 
-## 定义网格
+## 容器属性
+
+### display 属性
 
 `display: grid`就可以指定一个容器为网格布局。
 
@@ -28,62 +32,150 @@ div {
 }
 ```
 
-`grid-template-columns`定义列宽，`grid-template-rows`定义行宽。
+默认情况下，容器元素都是块级元素，但也可以设成行内元素。
 
 ```css
-.grid {
-  display: grid;
-  grid-template-columns: 5em 5em 5em;
-  grid-template-rows: 5em 5em 5em;
-  grid-row-gap: 20px;
-  grid-column-gap: 20px;
-  grid-gap: 1em;
+div {
+  display: inline-grid;
 }
 ```
 
-上面代码中，`grid-row-gap`用于设置行间距，`grid-column-gap`用于设置列间距。如果两个值都相等，可以写成`grid-gap`。
+上面代码指定`div`是一个行内元素，然后该元素内部是网格布局。
+
+注意，设为网格布局以后，容器的`column`、`float`、`clear`、`vertical-align`这四个属性将失效。
+
+### grid-template-columns 属性，grid-template-rows 属性
+
+一个容器元素设置了`display: grid`以后，下一步就是要指定网格布局，即指定容器要分成多少行和多少列。`grid-template-columns`属性用来定义每一列的列宽，`grid-template-rows`属性则是定义每一行的行宽。
 
 ```css
-.grid {
+.container {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+}
+```
+
+上面代码指定了一个三行乘以三列的网格。除了使用绝对单位，这里也允许使用百分比。
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 33.33% 33.33% 33.33%;
+  grid-template-rows: 33.33% 33.33% 33.33%;
+}
+```
+
+有时候，重复写同样的值非常麻烦，尤其是在网格很多的情况下。这时，可以使用`repeat()`函数，用于简化重复的值。
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 33.33%);
+  grid-template-rows: repeat(3, 33.33%);
+}
+```
+
+还有一种情况，单元格是绝对大小，但是容器的大小不确定。我们希望每一行或每一列，容纳尽可能多的单元格，这时可以使用`auto-fill`关键字表示自动填充。
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 100px);
+}
+```
+
+上面代码表示每列宽度`100px`，然后自动填充，直到容器不能放置更多的列。
+
+有时候，计算百分比不是很方便，这时可以使用`fr`关键字（fraction 的缩写），下面的代码可以取得一样的效果。
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+```
+
+`fr`可以与绝对单位结合使用，这时会非常方便。
+
+```css
+.container {
   display: grid;
   grid-template-columns: 150px 1fr 2fr;
 }
 ```
 
-`fr`代表 fraction，表示对剩余空间进行分配。
+`grid-template-columns`属性和`grid-template-rows`属性都允许使用`auto`关键字，表示占据剩余的所有宽度。
 
 ```css
-grid-template-columns: 33.33% 33.33% 33.33%;
-/* 等同于 */
-grid-template-columns: 1fr 1fr 1fr;
-
-grid-template-columns: 25% 50% 25%;
-/* 等同于 */
-grid-template-columns: 1fr 2fr 1fr;
+.container {
+  display: grid;
+  grid-template-columns: 100px auto 100px;
+  grid-template-rows: 100px auto 100px;
+}
 ```
 
-`minmax`函数用于设置一个数值范围。
+有时候，希望为网格指定最小值或最大值，这时可以使用`minmax()`函数设置一个数值范围。
 
 ```css
-grid-template-columns: 1fr 1fr minmax(160px, 1fr);
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr minmax(160px, 1fr);
+}
 ```
 
 上面代码中，`minmax(160px, 1fr)`表示该列的列宽不小于`160px`，不大于`1fr`。
 
-`repeat()`函数用于简化重复的值。
+### 网格线的名字
+
+`grid-template-columns`属性和`grid-template-rows`属性里面，还可以指定网格线的名字。
 
 ```css
-grid-template-columns: 5em 5em 5em;
-/* 等同于 */
-grid-template-columns: repeat(3, 5em);
+.container {
+  display: grid;
+  grid-template-columns: [c1] 100px [c2] 100px [c3] auto [c4];
+  grid-template-rows: [r1] 100px [r2] 100px [r3] auto [r4];
+}
 ```
 
-`auto-fill`关键字表示自动填充。
+上面代码指定网格布局为三行乘三列，因此有四根竖线和四根横线。方括号里面依次是这八根线的名字。
+
+### grid-row-gap 属性，grid-column-gap 属性，grid-gap 属性
+
+`grid-row-gap`属性设置行与行的间隔（行间距），`grid-column-gap`属性设置列与列的间隔（列间距）。
 
 ```css
-/* 每列 9em 宽，自动填充直到容器不能放置更多的列 */
-grid-template-columns: repeat(auto-fill, 9em);
+.container {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+}
 ```
+
+上面代码中，`grid-row-gap`用于设置行间距，`grid-column-gap`用于设置列间距。如果两个值都相等，可以写成`grid-gap`。
+
+`grid-gap`属性是`grid-column-gap`和`grid-row-gap`的简写形式。
+
+```css
+.container {
+  display: grid;
+  grid-gap: <grid-row-gap> <grid-column-gap>;
+}
+```
+
+如果`grid-row-gap`和`grid-column-gap`的值相等，`grid-gap`可以只写一个值。
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+}
+```
+
+注意，`grid-`前缀将被删除，`grid-column-gap`和`grid-row-gap`也可以写为`column-gap`和`row-gap`，`grid-gap`也可以写为`gap`。
 
 ## 放置元素
 
@@ -131,18 +223,6 @@ grid-auto-flow: column;
   grid-area: header;
 }
 ```
-
-## 网格容器
-
-网格容器是指定使用网格布局的元素。
-
-```css
-.container { 
-  display: grid | inline-grid	
-}
-```
-
-设为网格布局以后，`column`、`float`、`clear`、`vertical-align`这四个属性将失效。
 
 ## 项目属性
 
