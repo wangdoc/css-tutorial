@@ -177,43 +177,155 @@ div {
 
 注意，`grid-`前缀将被删除，`grid-column-gap`和`grid-row-gap`也可以写为`column-gap`和`row-gap`，`grid-gap`也可以写为`gap`。
 
-## 放置元素
+### grid-template-areas 属性
 
-定义网格布局以后，就可以把元素放置到网格上面。
+`grid-template-areas`属性用于为单元格起名。
 
 ```css
-.grid {
+.container {
   display: grid;
-  grid-template-columns: 12em 1fr 15em;
-  grid-template-rows: 10em 20em 1fr 10em;
-  grid-template-areas: 'a a b'
-                       'c d d'
-                       'c d d'
-                       'e e e';
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+  grid-template-areas: 'a b c'
+                       'd e f'
+                       'g h i';
 }
-
-.grid-item__a { grid-area: a; }
-.grid-item__b { grid-area: b; }
-.grid-item__c { grid-area: c; }
-.grid-item__d { grid-area: d; }
-.grid-item__e { grid-area: e; }
 ```
 
-`grid-template-areas`属性用于为区域命名。如果多个区域同名，就表示它们合并成一个区域。
+上面代码将9个单元格分别命名为`a`到`i`。
+
+`grid-template-areas`属性允许多个单元格重名，相当于将多个单元格合并组成了一个区域。
 
 ```css
-.grid-1 {
-  grid-template-areas:    "header header header"
-                          "main main sidebar"
-                          "footer footer footer";
+.container {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+  grid-template-areas: 'a a a'
+                       'b b b'
+                       'c c c';
 }
 ```
+
+上面代码将9个单元格分成`a`、`b`、`c`三个区域。
+
+这可以用来为网页划分区域。
+
+```css
+grid-template-areas: "header header header"
+                     "main main sidebar"
+                     "footer footer footer";
+```
+
+上面代码划分出页眉`header`和页脚`footer`，中间部分则为`main`和`sidebar`。
+
+如果有的区域为空，不需要利用，则使用“点”（`.`）表示。
+
+```css
+grid-template-areas: 'a . c'
+                     'd . f'
+                     'g . i';
+```
+
+上面代码中，中间一列为点，表示没有用到。
+
+### grid-auto-flow 属性
 
 容器元素的子元素会依次自动放入网格，这由`grid-auto-flow`属性决定。它的默认值是`row`，即网格编号的默认顺序，是先从左到右，再从上到下，即先行后列。也可以将它设成`column`，从先列后行。
 
 ```css
 grid-auto-flow: column;
 ```
+
+`row dense`和`column dense`表示，某几个单元格指定内容以后，剩余的单元格应该先填满行，还是先填满列。
+
+### justify-items 属性，align-items 属性，place-items 属性
+
+`justify-items`属性设置单元格内部如何水平对齐。
+
+```css
+.container {
+  justify-items: start | end | center | stretch;
+}
+```
+
+它可以取以下的值。
+
+- start - 与单元格的起始边缘齐平
+- end - 与单元格的结束边缘齐平
+- center - 对齐单元格的中心
+- stretch - 填充单元格的整个宽度（默认值）
+
+`align-items`属性设置单元格内部如何垂直对齐。
+
+```css
+.container {
+  align-items: start | end | center | stretch;
+}
+```
+
+它可以取以下的值。
+
+- start - 与单元格的起始边缘对齐
+- end - 与单元格的结束边缘对齐
+- center - 对齐单元格中心
+- stretch - 填充单元格的整个高度（默认值）
+
+`place-items`属性是`align-items`属性和`justify-items`属性的简写。
+
+```css
+place-items: <align-items> / <justify-items>;
+```
+
+### justify-content 属性，align-content 属性，place-content 属性
+
+`justify-content`属性是内容区域在容器里面的水平位置。
+
+```css
+.container {
+  justify-content: start | end | center | stretch | space-around | space-between | space-evenly;
+}
+```
+
+它可以取以下的值。
+
+- start - 将网格与网格容器的起始边缘对齐
+- end - 将网格与网格容器的末端边缘对齐
+- center - 将网格对齐网格容器的中心
+- stretch - 调整网格项的大小以允许网格填充网格容器的整个宽度。
+- space - 在每个网格项之间放置一个全长度的空白，在边缘放置半大小的空白。
+- space-between - 每个网格项之间的间隔相等，在边缘处没有空白。
+- space-evenly - 在每个网格项之间放置一个均匀的空间，包括远端
+
+`align-content`属性是内容区域在容器里面的垂直位置。
+
+- start - 将网格与网格容器的起始边缘齐平
+- end - 将网格与网格容器的末端边缘齐平
+- center - 将网格对齐网格容器的中心
+- stretch - 调整网格项的大小以允许网格填充网格容器的整个高度
+- space - 在每个网格项之间放置一个均匀的空间，在远端放置半个大小的空格
+- space-between - 在每个网格项之间放置一个均匀的空间，在远端没有空格
+- space-evenly - 在每个网格项之间放置一个均匀的空间，包括远端
+
+`place-content`属性是`align-content`属性和`justify-content`属性的简写。
+
+```css
+place-content: <align-content> / <justify-content>
+```
+
+### grid-auto-columns 属性，grid-auto-rows 属性
+
+`grid-auto-columns`属性和`grid-auto-rows`属性用来设置隐藏的列宽和行高。
+
+```css
+.container {
+  grid-auto-columns: 60px;
+}
+```
+
+## 项目属性
+
+### `grid-area`属性
 
 `grid-area`属性指定项目放在哪一个区域。
 
@@ -223,8 +335,6 @@ grid-auto-flow: column;
   grid-area: header;
 }
 ```
-
-## 项目属性
 
 ### grid-column，grid-row
 
