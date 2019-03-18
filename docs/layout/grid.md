@@ -76,6 +76,12 @@ div {
 }
 ```
 
+`repeat()`重复某种模式也是可以的。
+
+```css
+grid-template-columns: repeat(2, 100px 20px 80px);
+```
+
 还有一种情况，单元格是绝对大小，但是容器的大小不确定。我们希望每一行或每一列，容纳尽可能多的单元格，这时可以使用`auto-fill`关键字表示自动填充。
 
 ```css
@@ -164,27 +170,7 @@ div {
 
 ### grid-template 属性
 
-`grid-template`属性是`grid-template-columns`、`grid-template-rows`和`grid-template-areas`属性的简写形式。
-
-
-```css
-.container{
-  grid-template: auto 50px auto /
-                 [row1-start] 25px "header header header" [row1-end]
-                 [row2-start] "footer footer footer" 25px [row2-end]; 
-}
-```
-
-上面的写法等同于下面的写法。
-
-```css
-.container{
-  grid-template-columns: auto 50px auto;
-  grid-template-rows: [row1-start] 25px [row1-end row2-start] 25px [row2-end];
-  grid-template-areas: "header header header"
-                       "footer footer footer";
-}
-```
+`grid-template`属性是`grid-template-columns`、`grid-template-rows`和`grid-template-areas`属性的简写形式。这里不详细介绍了。
 
 ### grid-row-gap 属性，grid-column-gap 属性，grid-gap 属性
 
@@ -374,6 +360,23 @@ place-content: <align-content> / <justify-content>
 }
 ```
 
+这两个属性可以取以下值。
+
+- 长度单位：比如`30px`、`20%`、`0.5fr`。
+- max-content：高度或宽度最大的项目
+- min-content：高度或宽度最小的项目
+- minmax(min, max)：高度或宽度的范围
+- auto：如果设置了`min-width`或`min-height`，则使用它们的值。否则等同于`max-content`。
+
+这个属性可以一次性设置多行或多列。
+
+```css
+grid-auto-rows: min-content max-content auto;
+grid-auto-rows: 100px 150px 390px;
+grid-auto-rows: 10% 33.3%;
+grid-auto-rows: 0.5fr 3fr 1fr;
+```
+
 ## 项目属性
 
 ### grid-column-start 属性，grid-column-end 属性，grid-row-start 属性，grid-row-end 属性
@@ -394,7 +397,7 @@ place-content: <align-content> / <justify-content>
 }
 ```
 
-`span`关键字表示“跨越”，它后面跟的数字表示跨越的网格数量。
+`span`关键字表示“跨越”，它后面跟的数字表示跨越的网格数量，即两根网格线之间相隔的网格数。
 
 ```css
 .item-b {
