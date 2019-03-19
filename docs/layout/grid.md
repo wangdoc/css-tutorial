@@ -90,7 +90,9 @@ div {
 
 ### grid-template-columns 属性，grid-template-rows 属性
 
-一个容器元素设置了`display: grid`以后，下一步就是要指定网格布局，即指定容器要分成多少行和多少列。`grid-template-columns`属性用来定义每一列的列宽，`grid-template-rows`属性则是定义每一行的行宽。
+设置了`display: grid`以后，下一步就是要指定容器分成多少行和多少列。
+
+`grid-template-columns`属性用来定义每一列的列宽，`grid-template-rows`属性则是定义每一行的行宽。
 
 ```css
 .container {
@@ -100,7 +102,9 @@ div {
 }
 ```
 
-上面代码指定了一个三行乘以三列的网格。除了使用绝对单位，这里也允许使用百分比。
+[上面代码](https://jsbin.com/qiginur/edit?css,output)指定了一个三行三列的网格，列宽和行高都是`100px`。
+
+除了使用绝对单位，这里也允许使用百分比。
 
 ```css
 .container {
@@ -110,7 +114,7 @@ div {
 }
 ```
 
-有时候，重复写同样的值非常麻烦，尤其是在网格很多的情况下。这时，可以使用`repeat()`函数，用于简化重复的值。
+有时候，重复写同样的值非常麻烦，尤其网格很多时。这时，可以使用`repeat()`函数，简化重复的值。
 
 ```css
 .container {
@@ -126,7 +130,9 @@ div {
 grid-template-columns: repeat(2, 100px 20px 80px);
 ```
 
-还有一种情况，单元格是绝对大小，但是容器的大小不确定。我们希望每一行或每一列，容纳尽可能多的单元格，这时可以使用`auto-fill`关键字表示自动填充。
+[上面代码](https://jsbin.com/cokohu/edit?css,output)定义了6列，第一列和第四列的宽度为`100px`，第二列和第五列为`20px`，第三列和第六列为`80px`。
+
+还有一种情况，单元格的大小是固定的，但是容器的大小不确定，比如容器是全屏，但不知道用户的屏幕有多大。这时，我们希望每一行（或每一列），容纳尽可能多的单元格，这时可以使用`auto-fill`关键字表示自动填充。
 
 ```css
 .container {
@@ -135,7 +141,9 @@ grid-template-columns: repeat(2, 100px 20px 80px);
 }
 ```
 
-上面代码表示每列宽度`100px`，然后自动填充，直到容器不能放置更多的列。
+[上面代码](https://jsbin.com/himoku/edit?css,output)表示每列宽度`100px`，然后自动填充，直到容器不能放置更多的列。
+
+### fr 关键字
 
 有时候，计算百分比不是很方便，这时可以使用`fr`关键字（fraction 的缩写），下面的代码可以取得一样的效果。
 
