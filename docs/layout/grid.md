@@ -114,6 +114,8 @@ div {
 }
 ```
 
+**（1）repeat()**
+
 有时候，重复写同样的值非常麻烦，尤其网格很多时。这时，可以使用`repeat()`函数，简化重复的值。
 
 ```css
@@ -132,6 +134,8 @@ grid-template-columns: repeat(2, 100px 20px 80px);
 
 [上面代码](https://jsbin.com/cokohu/edit?css,output)定义了6列，第一列和第四列的宽度为`100px`，第二列和第五列为`20px`，第三列和第六列为`80px`。
 
+**（2）auto-fill 关键字**
+
 还有一种情况，单元格的大小是固定的，但是容器的大小不确定，比如容器是全屏，但不知道用户的屏幕有多大。这时，我们希望每一行（或每一列），容纳尽可能多的单元格，这时可以使用`auto-fill`关键字表示自动填充。
 
 ```css
@@ -143,9 +147,9 @@ grid-template-columns: repeat(2, 100px 20px 80px);
 
 [上面代码](https://jsbin.com/himoku/edit?css,output)表示每列宽度`100px`，然后自动填充，直到容器不能放置更多的列。
 
-### fr 关键字
+**（3）fr 关键字**
 
-有时候，计算百分比不是很方便，这时可以使用`fr`关键字（fraction 的缩写），下面的代码可以取得一样的效果。
+为了方便表示比例关系，网格布局提供了`fr`关键字（fraction 的缩写，意为“片段”）。
 
 ```css
 .container {
@@ -155,7 +159,9 @@ grid-template-columns: repeat(2, 100px 20px 80px);
 }
 ```
 
-`fr`可以与绝对单位结合使用，这时会非常方便。
+[上面代码](https://jsbin.com/hadexek/edit?html,css,output)表示三个相同宽度的列，三个相同高度的行。
+
+`fr`可以与绝对长度的单位结合使用，这时会非常方便。
 
 ```css
 .container {
@@ -164,30 +170,57 @@ grid-template-columns: repeat(2, 100px 20px 80px);
 }
 ```
 
-`grid-template-columns`属性和`grid-template-rows`属性都允许使用`auto`关键字，表示占据剩余的所有宽度。
+上面代码表示，第一列的宽度为150像素，第二列的宽度则是第三列的一半。
+
+**（4）max-content 关键字，min-content 关键字**
+
+`max-content`关键字表示宽度（高度）与本栏（本列）内容宽度最大（高度最大）的单元格相同。
+
+`min-content`关键字表示宽度（高度）等于本栏（本列）内容宽度最小（高度最小）的单元格相同。
 
 ```css
 .container {
   display: grid;
-  grid-template-columns: 100px auto 100px;
-  grid-template-rows: 100px auto 100px;
+  grid-template-columns: 150px max-content min-content;
 }
 ```
 
-有时候，希望为网格指定最小值或最大值，这时可以使用`minmax()`函数设置一个数值范围。
+上面代码表示，第一列的宽度为150像素，第二列的宽度等于该列最宽的单元格，第三列的宽度等于该列最窄的单元格。
+
+**（5）minmax()**
+
+`minmax()`函数列出一个长度范围。它接受两个参数，第一个参数表示下限值，第二个参数表示上限值。如果当前列（行）的宽度（高度）小于下限值，则使用下限值；如果大于上限值，则使用上限值；否则，就使用实际值。
 
 ```css
-.container {
-  display: grid;
-  grid-template-columns: 1fr 1fr minmax(160px, 1fr);
-}
+grid-template-columns: 1fr 1fr minmax(160px, 1fr);
+grid-template-columns: 1fr 1fr minmax(160px, max-content);
 ```
 
-上面代码中，`minmax(160px, 1fr)`表示该列的列宽不小于`160px`，不大于`1fr`。
+上面代码中，`minmax(160px, 1fr)`表示列宽不小于`160px`，不大于`1fr`; `minmax(160px, max-content)`则表示列宽最大不超过实际宽度。
 
-### 网格线的名字
+**（6）auto 关键字**
 
-`grid-template-columns`属性和`grid-template-rows`属性里面，还可以指定网格线的名字。
+`auto`关键字基本上等同于`max-content`，除非单元格内容设置了`min-width`（`min-height`），且这个下限值比`max-content`还要大，这时就会等于`min-width`（`min-height`）。
+
+```css
+grid-template-columns: 100px auto 100px;
+```
+
+上面代码中，第二列的宽度，基本上等于该列单元格的最大宽度，除非单元格内容设置了`min-width`，且这个下限值大于最大宽度，这时第二列的宽度就会等于下限值。
+
+**（7）fit-content()**
+
+`fit-content()`函数接受一个长度单位作为参数，相当于`min(max-content, max(auto, argument))`，即如果参数值小于`max-content`，则等于参数值，否则等于`max-content`。如果单元格内容设置了`min-width`（`min-height`），且大于参数值，那么`min-width`（`min-height`）会取代参数值。
+
+```css
+grid-template-columns: fit-content(40%);
+```
+
+上面代码表示，列宽最大不超过容器的`40%`，如果单元格内容的最大宽度小于`40%`，则列宽等于单元格的最大宽度。
+
+**（8）网格线的名称**
+
+`grid-template-columns`属性和`grid-template-rows`属性里面，还可以使用方括号，指定每一根网格线的名字，方便以后的引用。
 
 ```css
 .container {
@@ -197,32 +230,9 @@ grid-template-columns: repeat(2, 100px 20px 80px);
 }
 ```
 
-上面代码指定网格布局为三行乘三列，因此有四根竖线和四根横线。方括号里面依次是这八根线的名字。
+上面代码指定网格布局为3行乘3列，因此有4根垂直网格线和4根水平网格线。方括号里面依次是这八根线的名字。
 
-可以为同一根线，指定多个名字`[main-end footer-start row-5]`。
-
-每个区域的起始线和终止线，会有自动的名字。比如，区域名为`header`，则区域的起始行线和起始列线叫做`header-start`，终止行线和终止列线叫做`header-end`。
-
-这两个属性之中，允许为每根网格线指定名称。
-
-```css
-.container{
-  grid-template-columns: [first] 40px [line2] 50px [line3] auto [col4-start] 50px [five] 40px [end];
-  grid-template-rows: [row1-start] 25% [row1-end] 100% [third-line] auto [last-line];
-}
-```
-
-注意，网格线的名称可以相同，而且每根网格线可以有不止一个的名称。
-
-```css
-.container{
-  grid-template-rows: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
-}
-```
-
-### grid-template 属性
-
-`grid-template`属性是`grid-template-columns`、`grid-template-rows`和`grid-template-areas`属性的简写形式。这里不详细介绍了。
+网格布局允许，同一根线有多个名字，比如`[fifth-line row-5]`。
 
 ### grid-row-gap 属性，grid-column-gap 属性，grid-gap 属性
 
@@ -311,6 +321,12 @@ grid-template-areas: 'a . c'
 ```
 
 上面代码中，中间一列为点，表示没有用到。
+
+每个区域的起始线和终止线，会有自动的名字。比如，区域名为`header`，则区域的起始行线和起始列线叫做`header-start`，终止行线和终止列线叫做`header-end`。
+
+### grid-template 属性
+
+`grid-template`属性是`grid-template-columns`、`grid-template-rows`和`grid-template-areas`属性的简写形式。这里不详细介绍了。
 
 ### grid-auto-flow 属性
 
