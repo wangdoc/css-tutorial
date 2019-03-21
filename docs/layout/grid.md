@@ -208,17 +208,7 @@ grid-template-columns: 100px auto 100px;
 
 上面代码中，第二列的宽度，基本上等于该列单元格的最大宽度，除非单元格内容设置了`min-width`，且这个下限值大于最大宽度，这时第二列的宽度就会等于下限值。
 
-**（7）fit-content()**
-
-`fit-content()`函数接受一个长度单位作为参数，相当于`min(max-content, max(auto, argument))`，即如果参数值小于`max-content`，则等于参数值，否则等于`max-content`。如果单元格内容设置了`min-width`（`min-height`），且大于参数值，那么`min-width`（`min-height`）会取代参数值。
-
-```css
-grid-template-columns: fit-content(40%);
-```
-
-上面代码表示，列宽最大不超过容器的`40%`，如果单元格内容的最大宽度小于`40%`，则列宽等于单元格的最大宽度。
-
-**（8）网格线的名称**
+**（7）网格线的名称**
 
 `grid-template-columns`属性和`grid-template-rows`属性里面，还可以使用方括号，指定每一根网格线的名字，方便以后的引用。
 
@@ -240,22 +230,24 @@ grid-template-columns: fit-content(40%);
 
 ```css
 .container {
-  display: grid;
-  grid-template-columns: 100px 100px 100px;
-  grid-template-rows: 100px 100px 100px;
   grid-row-gap: 20px;
   grid-column-gap: 20px;
 }
 ```
 
-上面代码中，`grid-row-gap`用于设置行间距，`grid-column-gap`用于设置列间距。如果两个值都相等，可以写成`grid-gap`。
+[上面代码](https://jsbin.com/mezufab/edit?css,output)中，`grid-row-gap`用于设置行间距，`grid-column-gap`用于设置列间距。
 
-`grid-gap`属性是`grid-column-gap`和`grid-row-gap`的简写形式。
+`grid-gap`属性是`grid-column-gap`和`grid-row-gap`的简写形式，使用方式如下。
+
+```css
+grid-gap: <grid-row-gap> <grid-column-gap>;
+```
+
+因此，上面一段 CSS 代码等同于下面的代码。
 
 ```css
 .container {
-  display: grid;
-  grid-gap: <grid-row-gap> <grid-column-gap>;
+  grid-gap: 20px 20px;
 }
 ```
 
@@ -263,16 +255,15 @@ grid-template-columns: fit-content(40%);
 
 ```css
 .container {
-  display: grid;
   grid-gap: 20px;
 }
 ```
 
-注意，`grid-`前缀将被删除，`grid-column-gap`和`grid-row-gap`也可以写为`column-gap`和`row-gap`，`grid-gap`也可以写为`gap`。
+注意，根据最新标准，这些属性里面的`grid-`前缀已经删除，`grid-column-gap`和`grid-row-gap`写成`column-gap`和`row-gap`，`grid-gap`写成`gap`。
 
 ### grid-template-areas 属性
 
-`grid-template-areas`属性用于为单元格起名。
+网格布局允许多个单元格组成一个“区域”（area），单个单元格的区域也是允许的。`grid-template-areas`属性用于定义区域。
 
 ```css
 .container {
@@ -285,24 +276,19 @@ grid-template-columns: fit-content(40%);
 }
 ```
 
-上面代码将9个单元格分别命名为`a`到`i`。
+上面代码先划分出9个单元格，然后将定名为`a`到`i`的九个区域，分别对应这九个单元格。
 
-`grid-template-areas`属性允许多个单元格重名，相当于将多个单元格合并组成了一个区域。
+一个区域包括多个单元格的写法如下。
 
 ```css
-.container {
-  display: grid;
-  grid-template-columns: 100px 100px 100px;
-  grid-template-rows: 100px 100px 100px;
-  grid-template-areas: 'a a a'
-                       'b b b'
-                       'c c c';
-}
+grid-template-areas: 'a a a'
+                     'b b b'
+                     'c c c';
 ```
 
 上面代码将9个单元格分成`a`、`b`、`c`三个区域。
 
-这可以用来为网页划分区域。
+区域可以用来为布局的各个部分，指定有意义的名称。
 
 ```css
 grid-template-areas: "header header header"
@@ -310,7 +296,7 @@ grid-template-areas: "header header header"
                      "footer footer footer";
 ```
 
-上面代码划分出页眉`header`和页脚`footer`，中间部分则为`main`和`sidebar`。
+上面代码中，网页顶部是页眉`header`，底部是页脚`footer`，中间部分则为`main`和`sidebar`。
 
 如果有的区域为空，不需要利用，则使用“点”（`.`）表示。
 
@@ -320,13 +306,13 @@ grid-template-areas: 'a . c'
                      'g . i';
 ```
 
-上面代码中，中间一列为点，表示没有用到。
+上面代码中，中间一列为点，表示没有用到该单元格，或者该单元格不属于任何区域。
 
-每个区域的起始线和终止线，会有自动的名字。比如，区域名为`header`，则区域的起始行线和起始列线叫做`header-start`，终止行线和终止列线叫做`header-end`。
+注意，区域的命名会影响到网格线。每个区域的起始网格线，会自动命名为区域名加上`-start`后缀，终止网格线自动命名为区域名加上`-end`后缀。比如，区域名为`header`，则该区域起始位置的水平网格线和垂直网格线叫做`header-start`，终止位置的水平网格线和垂直网格线叫做`header-end`。
 
 ### grid-template 属性
 
-`grid-template`属性是`grid-template-columns`、`grid-template-rows`和`grid-template-areas`属性的简写形式。这里不详细介绍了。
+`grid-template`属性是`grid-template-columns`、`grid-template-rows`和`grid-template-areas`这三个属性的合并简写形式。从易读易写的角度考虑，还是建议不要合并写这三个属性，所以这里就不详细介绍了。
 
 ### grid-auto-flow 属性
 
