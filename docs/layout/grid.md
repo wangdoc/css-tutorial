@@ -310,128 +310,156 @@ grid-template-areas: 'a . c'
 
 注意，区域的命名会影响到网格线。每个区域的起始网格线，会自动命名为区域名加上`-start`后缀，终止网格线自动命名为区域名加上`-end`后缀。比如，区域名为`header`，则该区域起始位置的水平网格线和垂直网格线叫做`header-start`，终止位置的水平网格线和垂直网格线叫做`header-end`。
 
-### grid-template 属性
-
-`grid-template`属性是`grid-template-columns`、`grid-template-rows`和`grid-template-areas`这三个属性的合并简写形式。从易读易写的角度考虑，还是建议不要合并写这三个属性，所以这里就不详细介绍了。
-
 ### grid-auto-flow 属性
 
-容器元素的子元素会依次自动放入网格，这由`grid-auto-flow`属性决定。它的默认值是`row`，即网格编号的默认顺序，是先从左到右，再从上到下，即先行后列。也可以将它设成`column`，从先列后行。
+划分网格以后，容器的子元素会按照顺序，自动放置在每一个网格。默认的放置顺序是“先行后列”，即先填满第一行，然后再开始放入第二行，即下图数字的顺序。
+
+放置顺序由`grid-auto-flow`属性决定，默认值是`row`，即“先行后列”。也可以将它设成`column`，变成“先列后行”。
 
 ```css
 grid-auto-flow: column;
 ```
 
-`row dense`和`column dense`表示，某几个单元格指定内容以后，剩余的单元格应该先填满行，还是先填满列。
+上面代码设置了`column`以后，放置顺序就变成了下图。
 
-`dense`关键字表示紧密填充，尽量不出现空格。
+`grid-auto-flow`属性除了设置成`row`和`column`，还可以设成`row dense`和`column dense`。这两个值主要用于，某些位置被指定项目占据了以后，剩下的单元格怎么自动放置。
+
+如果指定`1`号项目占据第一行第一列，`9`号项目占据第三行第一列，剩下的项目自动排列。
 
 ```css
 grid-auto-flow: row dense;
 ```
 
+[上面代码](https://jsbin.com/wapejok/edit?css,output)表示，优先填满行，效果如下图。`dense`关键字表示紧密填充，尽量不出现空格。
+
+```css
+grid-auto-flow: column dense;
+```
+
+[上面代码](https://jsbin.com/moyeduf/edit?css,output)表示，优先填满列，效果如下图。
+
 ### justify-items 属性，align-items 属性，place-items 属性
 
-`justify-items`属性设置单元格内部如何水平对齐。
+`justify-items`属性设置单元格内容的水平位置（左中右），`align-items`属性设置单元格内容的垂直位置（上中下）。
 
 ```css
 .container {
   justify-items: start | end | center | stretch;
-}
-```
-
-它可以取以下的值。
-
-- start - 与单元格的起始边缘齐平
-- end - 与单元格的结束边缘齐平
-- center - 对齐单元格的中心
-- stretch - 填充单元格的整个宽度（默认值）
-
-`align-items`属性设置单元格内部如何垂直对齐。
-
-```css
-.container {
   align-items: start | end | center | stretch;
 }
 ```
 
-它可以取以下的值。
+这两个属性的写法完全相同，都可以取下面这些值。
 
-- start - 与单元格的起始边缘对齐
-- end - 与单元格的结束边缘对齐
-- center - 对齐单元格中心
-- stretch - 填充单元格的整个高度（默认值）
-
-`place-items`属性是`align-items`属性和`justify-items`属性的简写。
+- start：对齐单元格的起始边缘。
+- end：对齐单元格的结束边缘。
+- center：单元格内部居中。
+- stretch：拉伸，占满单元格的整个宽度（默认值）。
 
 ```css
-place-items: <align-items> / <justify-items>;
+.container {
+  justify-items: start;
+}
+```
+
+[上面代码](https://jsbin.com/gijeqej/edit?css,output)表示，单元格的内容左对齐。
+
+```css
+.container {
+  align-items: start;
+}
+```
+
+[上面代码](https://jsbin.com/tecawur/edit?css,output)表示，单元格的内容头部对齐。
+
+`place-items`属性则是`align-items`属性和`justify-items`属性的简写形式。
+
+```css
+place-items: <align-items> <justify-items>;
+```
+
+下面是一个例子。
+
+```css
+place-items: start end;
+```
+
+如果省略第二个值，则浏览器认为与第一个值相等。
+
+```css
+place-items: center;
+/* 等同于 */
+place-items: center center;
 ```
 
 ### justify-content 属性，align-content 属性，place-content 属性
 
-`justify-content`属性是内容区域在容器里面的水平位置。
+`justify-content`属性是整个内容区域在容器里面的水平位置（左中右），`align-content`属性是整个内容区域的垂直位置（上中下）。
 
 ```css
 .container {
   justify-content: start | end | center | stretch | space-around | space-between | space-evenly;
+  align-content: start | end | center | stretch | space-around | space-between | space-evenly;  
 }
 ```
 
-它可以取以下的值。
+这两个属性的写法完全相同，都可以取下面这些值。
 
-- start - 将网格与网格容器的起始边缘对齐
-- end - 将网格与网格容器的末端边缘对齐
-- center - 将网格对齐网格容器的中心
-- stretch - 调整网格项的大小以允许网格填充网格容器的整个宽度。
-- space - 在每个网格项之间放置一个全长度的空白，在边缘放置半大小的空白。
-- space-between - 每个网格项之间的间隔相等，在边缘处没有空白。
-- space-evenly - 在每个网格项之间放置一个均匀的空间，包括远端
-
-`align-content`属性是内容区域在容器里面的垂直位置。
-
-- start - 将网格与网格容器的起始边缘齐平
-- end - 将网格与网格容器的末端边缘齐平
-- center - 将网格对齐网格容器的中心
-- stretch - 调整网格项的大小以允许网格填充网格容器的整个高度
-- space - 在每个网格项之间放置一个均匀的空间，在远端放置半个大小的空格
-- space-between - 在每个网格项之间放置一个均匀的空间，在远端没有空格
-- space-evenly - 在每个网格项之间放置一个均匀的空间，包括远端
-
-`place-content`属性是`align-content`属性和`justify-content`属性的简写。
+- start - 对齐容器的起始边框。
+- end - 对齐容器的结束边框。
+- center - 容器内部居中。
+- stretch - 项目大小没有指定时，拉伸占据整个网格容器。
+- space-around - 每个项目两侧的间隔相等。所以，项目之间的间隔比项目与容器边框的间隔大一倍。
+- space-between - 项目与项目的间隔相等，项目与容器边框之间没有间隔。
+- space-evenly - 项目与项目的间隔相等，项目与容器边框之间也是同样长度的间隔。
 
 ```css
-place-content: <align-content> / <justify-content>
+align-content: end;
 ```
+
+上面代码的效果如下图。
+
+`place-content`属性是`align-content`属性和`justify-content`属性的简写形式。
+
+```css
+place-content: <align-content> <justify-content>
+```
+
+下面是一个例子。
+
+```css
+place-content: space-around space-evenly;
+```
+
+如果省略第二个值，浏览器就会假定第二个值等于第一个值。
 
 ### grid-auto-columns 属性，grid-auto-rows 属性
 
-`grid-auto-columns`属性和`grid-auto-rows`属性用来设置隐藏的列宽和行高。
+有时候，一些项目的指定位置，在现有网格的外部。比如网格只有3列，但是某一个项目指定在第5行。这时，浏览器会自动生成多余的网格，以便放置项目。
+
+`grid-auto-columns`属性和`grid-auto-rows`属性用来设置，浏览器自动创建的多余网格的列宽和行高。它们的写法与`grid-template-columns`和`grid-template-rows`完全相同。如果不指定这两个属性，浏览器完全根据单元格内容的大小，决定新增网格的列宽和行高。
+
+[下面的例子](https://jsbin.com/sayuric/edit?css,output)里面，划分好的网格是3行 x 3列，但是，8号项目指定在第4行，9号项目指定在第5行。
 
 ```css
 .container {
-  grid-auto-columns: 60px;
+  grid-auto-rows: 50px;
 }
 ```
 
-这两个属性可以取以下值。
+上面代码指定新增的行高统一为50px（原始的行高为100px）。
 
-- 长度单位：比如`30px`、`20%`、`0.5fr`。
-- max-content：高度或宽度最大的项目
-- min-content：高度或宽度最小的项目
-- minmax(min, max)：高度或宽度的范围
-- auto：如果设置了`min-width`或`min-height`，则使用它们的值。否则等同于`max-content`。
+### grid-template 属性，grid 属性
 
-这个属性可以一次性设置多行或多列。
+`grid-template`属性是`grid-template-columns`、`grid-template-rows`和`grid-template-areas`这三个属性的合并简写形式。
 
-```css
-grid-auto-rows: min-content max-content auto;
-grid-auto-rows: 100px 150px 390px;
-grid-auto-rows: 10% 33.3%;
-grid-auto-rows: 0.5fr 3fr 1fr;
-```
+`grid`属性是`grid-template-rows`、`grid-template-columns`、`grid-template-areas`、  `grid-auto-rows`、`grid-auto-columns`、`grid-auto-flow`这六个属性的合并简写形式。
+
+从易读易写的角度考虑，还是建议不要合并属性，所以这里就不详细介绍这两个属性了。
 
 ## 项目属性
+
+下面这些属性定义在项目上面。
 
 ### grid-column-start 属性，grid-column-end 属性，grid-row-start 属性，grid-row-end 属性
 
