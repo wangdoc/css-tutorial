@@ -463,54 +463,68 @@ place-content: space-around space-evenly;
 
 ### grid-column-start 属性，grid-column-end 属性，grid-row-start 属性，grid-row-end 属性
 
-一个项目有四根边框线，都可以指定所在的网格线的位置或名字。
+项目的位置是可以指定的，具体方法就是指定项目的四个边框，分别定位在哪根网格线。
 
-- `grid-column-start`：上边框
-- `grid-column-end`：下边框
-- `grid-row-start`：左边框
-- `grid-row-end`：右边框
+- `grid-column-start`属性：左边框所在的垂直网格线
+- `grid-column-end`属性：右边框所在的垂直网格线
+- `grid-row-start`属性：上边框所在的水平网格线
+- `grid-row-end`属性：下边框所在的水平网格线
 
 ```css
 .item-1 {
   grid-column-start: 2;
-  grid-column-end: five;
-  grid-row-start: row1-start
-  grid-row-end: 3;
+  grid-column-end: 4;
 }
 ```
 
-`span`关键字表示“跨越”，它后面跟的数字表示跨越的网格数量，即两根网格线之间相隔的网格数。
+[上面代码](https://jsbin.com/yukobuf/edit?css,output)指定，1号项目的左边框是第二根垂直网格线，右边框是第四根垂直网格线。
+
+上图中，只指定了左右边框，没有指定上下边框，所以会采用默认位置，即上边框是第一根水平网格线，下边框是第二根水平网格线。除了1号项目以外，其他项目都没有指定位置，由浏览器自动布局，这时它们的位置由容器的`grid-auto-flow`属性决定，这个属性的默认值是`row`，因此会“先行后列”进行排列。读者可以把这个属性的值分别改成`column`、`row dense`和`column dense`，看看其他项目的位置发生了怎样的变化。
+
+[下面的例子](https://jsbin.com/nagobey/edit?html,css,output)是指定四个边框位置的效果。
 
 ```css
-.item-b {
+.item-1 {
   grid-column-start: 1;
-  grid-column-end: span col4-start;
-  grid-row-start: 2
-  grid-row-end: span 2
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 4;
 }
 ```
 
-如果未声明`grid-column-end`或`grid-row-end`，默认将占据一个网格。
-
-如果`grid-column-start`和`grid-row-start`使用`span`关键字，则表示从默认位置跨越1个栏位。
+这四个属性的值，除了指定为第几个网格线，还可以指定为网格线的名字。
 
 ```css
-.item-b {
+.item-1 {
+  grid-column-start: header-start;
+  grid-column-end: header-end;
+}
+```
+
+上面代码中，左边框和右边框的位置，都指定为网格线的名字。
+
+这四个属性的值还可以使用`span`关键字，表示“跨越”，即左右边框（上下边框）之间跨越多少个网格。
+
+```css
+.item-1 {
   grid-column-start: span 2;
 }
+```
 
-.container header,
-.container nav,
-.container footer {
-  grid-column: span 4;
+[上面代码](https://jsbin.com/hehumay/edit?html,css,output)表示，1号项目的左边框距离右边框跨越2个网格。这与[下面的代码](https://jsbin.com/mujihib/edit?html,css,output)效果完全一样。
+
+
+```css
+.item-1 {
+  grid-column-end: span 2;
 }
 ```
 
-项目可以相互重叠，这时可以使用`z-index`控制堆叠顺序。
+使用这四个属性，如果产生了项目的重叠，则使用`z-index`属性指定项目的重叠顺序。
 
 ### grid-column 属性，grid-row 属性
 
-`grid-column`属性是`grid-column-start`和`grid-column-end`的简写形式，`grid-row`属性是`grid-row-start`属性和`grid-row-end`的简写形式。
+`grid-column`属性是`grid-column-start`和`grid-column-end`的合并简写形式，`grid-row`属性是`grid-row-start`属性和`grid-row-end`的合并简写形式。
 
 ```css
 .item {
@@ -523,9 +537,15 @@ place-content: space-around space-evenly;
 
 ```css
 .item-1 {
-  background: #b03532;
   grid-column: 1 / 3;
   grid-row: 1 / 2;
+}
+/* 等同于 */
+.item-1 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
 }
 ```
 
@@ -547,112 +567,85 @@ place-content: space-around space-evenly;
 }
 ```
 
-上面代码中，项目`item-1`占据的区域，包括第一行到第二行、第一列到第二列。
+[上面代码](https://jsbin.com/volugow/edit?html,css,output)中，项目`item-1`占据的区域，包括第一行到第二行、第一列到第二列。
 
 斜杠以及后面的部分可以省略，默认跨越一个网格。
 
 ```css
 .item-1 {
-  background: #b03532;
   grid-column: 1;
   grid-row: 1;
 }
 ```
 
-上面代码中，项目`item-1`占据第一行第一列。
+上面代码中，项目`item-1`占据左上角第一个网格。
 
-### `grid-area`属性
+### grid-area 属性
 
 `grid-area`属性指定项目放在哪一个区域。
 
 ```css
 .item-1 {
-  background: #b03532;
-  grid-area: header;
+  grid-area: e;
 }
 ```
 
-此属性可用作`grid-row-start` + `grid-column-start`、`grid-row-end`、`grid-column-end`的更短缩写，直接指定项目的位置。
+[上面代码](https://jsbin.com/qokexob/edit?css,output)中，1号项目位于`e`区域，效果如下图。
+
+`grid-area`属性还可用作`grid-row-start`、`grid-column-start`、`grid-row-end`、`grid-column-end`的合并简写形式，直接指定项目的位置。
 
 ```css
 .item {
-  grid-area: <name> | <row-start> / <column-start> / <row-end> / <column-end>;
+  grid-area: <row-start> / <column-start> / <row-end> / <column-end>;
 }
 ```
 
-下面是一个例子。
+下面是一个[例子](https://jsbin.com/duyafez/edit?css,output)。
 
 ```css
-.item-d {
-  grid-area: 1 / col4-start / last-line / 6;
+.item-1 {
+  grid-area: 1 / 1 / 3 / 3;
 }
 ```
 
-### justify-self
+### justify-self 属性，align-self 属性，place-self 属性
 
-`justify-self`指定项目在单元格内部的位置，可以取四个值。
-
-- start - 项目与单元格的起始边缘对齐
-- end - 项目与单元格的结束边缘对齐
-- center - 项目在单元格的中心
-- stretch - 项目填充单元格的整个宽度（默认值）
+`justify-self`属性设置单元格内容的水平位置（左中右），跟`justify-items`属性的用法完全一致，区别是只作用于单个项目。`align-self`属性设置单元格内容的垂直位置（上中下），跟`align-items`属性的用法完全一致，也是只作用于单个项目。
 
 ```css
 .item {
   justify-self: start | end | center | stretch;
-}
-```
-
-下面是一个例子。
-
-```css
-.item-a {
-  justify-self: start;
-}
-```
-
-### align-self
-
-`align-self`属性指定项目在单元格里面的水平对齐方式。
-
-- start - 将网格项对齐以与单元格的起始边缘齐平
-- end - 将网格项对齐以与单元格的结束边缘齐平
-- center - 将网格项对齐在单元格的中心
-- stretch - 填充单元格的整个高度（这是默认值）
-
-```css
-.item {
   align-self: start | end | center | stretch;
 }
 ```
 
+这两个属性都可以取下面四个值。
+
+- start：对齐单元格的起始边缘。
+- end：对齐单元格的结束边缘。
+- center：单元格内部居中。
+- stretch：拉伸，占满单元格的整个宽度（默认值）。
+
+`place-self`属性是`align-self`属性和`justify-self`属性的合并简写形式。
+
+```css
+place-self: <align-self> <justify-self>;
+```
+
 下面是一个例子。
 
 ```css
-.item-a {
-  align-self: start;
-}
+place-self: center center;
 ```
 
-### place-self 属性
-
-`place-self`属性是`align-self`属性和`justify-self`属性的简写形式。
-
-```css
-place-self: <align-self> / <justify-self>;
-```
-
-如果只有一个值，则`align-self`属性和`justify-self`属性都使用这个值。
-
-## 响应式实例
-
-https://webdesign.tutsplus.com/tutorials/how-to-build-an-off-canvas-navigation-with-css-grid--cms-28191
+如果省略第二个值，`place-self`属性会认为这两个值相等。
 
 ## 参考链接
 
 - https://webdesign.tutsplus.com/articles/new-course-3-css-grid-projects-for-web-designers--cms-27947
 - [A Complete Guide to Grid](https://css-tricks.com/snippets/css/complete-guide-grid/), by Chris House
 - [Understanding the CSS Grid Layout Module](https://webdesign.tutsplus.com/series/understanding-the-css-grid-layout-module--cms-1079), by Ian Yates
+- [How to Build an Off-Canvas Navigation With CSS Grid](https://webdesign.tutsplus.com/tutorials/how-to-build-an-off-canvas-navigation-with-css-grid--cms-28191), Ian Yates
 
 ## 两栏式布局
 
