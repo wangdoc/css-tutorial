@@ -4,25 +4,21 @@
 
 网格布局（Grid）是最强大的 CSS 布局方案。
 
-它将网页空间划分成一个个网格，然后像乐高积木那样，允许你任意组合不同的网格，做出各种各样的布局。以前，你只能通过复杂的 CSS 框架库达到的效果，现在浏览器内置提供了。
+它将网页划分成一个个网格，可以任意组合不同的网格，做出各种各样的布局。以前，只能通过复杂的 CSS 框架达到的效果，现在浏览器内置了。
 
-上图这样的布局，就是 Grid 布局的效果。
+上图这样的布局，就是 Grid 布局的拿手好戏。
 
-除了 Grid 布局，CSS 还支持 Flex 布局。这两种布局有一定的相似性，都可以指定容器内部多个项目的位置。但是，它们也存在重大区别。
-
-Flex 布局是轴线布局（主轴和交叉轴），只能指定项目针对轴线的位置，可以看作是一维布局。Grid 布局是将容器划分成“行”和“列”（即划分单元格），然后指定项目所在的单元格，可以看作是二维布局。Grid 布局远比 Flex 布局强大。
+Grid 布局与 Flex 布局有一定的相似性，都可以指定容器内部多个项目的位置。但是，它们也存在重大区别。Flex 布局是轴线布局，只能指定项目针对轴线的位置，可以看作是**一维布局**。Grid 布局则是将容器划分成“行”和“列”，产生单元格，然后指定项目所在的单元格，可以看作是**二维布局**。Grid 布局远比 Flex 布局强大。
 
 ## 基本概念
 
-学习 Grid 布局之前，需要了解一些专门术语。
+学习 Grid 布局之前，需要了解一些基本概念。
 
-**（1）容器**
+**（1）容器和项目**
 
 采用网格布局的那个区域，称为“容器”（container）。
 
-**（2）项目**
-
-在容器内部，采用网格定位的子元素，称为“项目”（item）。
+容器内部采用网格定位的子元素，称为“项目”（item）。
 
 ```html
 <div>
@@ -32,41 +28,37 @@ Flex 布局是轴线布局（主轴和交叉轴），只能指定项目针对轴
 </div>
 ```
 
-上面代码中，外层的`<div>`元素就是容器，内层的三个`<div>`元素就是项目。
+上面代码中，最外层的`<div>`元素就是容器，内层的三个`<div>`元素就是项目。
 
-注意：项目只能是容器的顶层子元素，不包含项目的子元素，比如上面代码的`<p>`元素。Grid 布局只对项目有效。
+注意：项目只能是容器的顶层子元素，不包含项目的子元素，比如上面代码的`<p>`元素就不是项目。Grid 布局只对项目生效。
 
-**（3）行**
+**（2）行和列**
 
-容器里面水平的区域，称为“行”（row）。
+容器里面的水平区域称为“行”（row），垂直区域称为“列”（column）。
 
-**（4）列**
+上图中，水平的深色区域就是“行”，垂直的深色区域就是“列”。
 
-容器里面垂直的区域，称为“列”（column）。
-
-上图中，水平的深色区域就是“行”，垂直的深色区域就是（列）。
-
-**（5）单元格**
+**（3）单元格**
 
 行和列的交叉区域，称为“单元格”（cell）。
 
 正常情况下，`n`行和`m`列会产生`n x m`个单元格。比如，3行3列会产生9个单元格。
 
-**（6）网格线**
+**（4）网格线**
 
-划分网格的线，称为“网格线”（grid line）。划分“行”的网格线，称为水平网格线；划分“列”的网格线，称为垂直网格线。
+划分网格的线，称为“网格线”（grid line）。水平网格线划分出行，垂直网格线划分出列。
 
-正常情况下，`n`行有`n + 1`根水平网格线，`m`列有`m + 1`根垂直网格线，比如三行有四根网格线。
+正常情况下，`n`行有`n + 1`根水平网格线，`m`列有`m + 1`根垂直网格线，比如三行就有四根水平网格线。
 
 上图是一个 4 x 4 的网格，共有5根水平网格线和5根垂直网格线。
 
 ## 容器属性
 
-网格布局的属性分成两部分，一部分属于容器属性，另一部分属于项目属性。这里先介绍容器属性。
+Grid 布局的属性分成两类。一类定义在容器上面，称为容器属性；另一类定义在项目上面，称为项目属性。这部分先介绍容器属性。
 
 ### display 属性
 
-`display: grid`可以指定一个容器为网格布局。
+`display: grid`可以指定一个容器采用网格布局。
 
 ```css
 div {
@@ -82,11 +74,11 @@ div {
 }
 ```
 
-上面代码指定`div`是一个行内元素，然后该元素内部是网格布局。
+上面代码指定`div`是一个行内元素，该元素内部采用网格布局。
 
-上图是网格容器嵌在一段文本之中。第一张图是`display: grid`的[效果](https://jsbin.com/guvivum/edit?html,css,output)，第二张图是`display: inline-grid`的[效果](https://jsbin.com/purojey/edit?html,css,output)。
+上图是网格容器嵌在一段文本之中。第一张图是`display: grid`的[效果](https://jsbin.com/guvivum/edit?html,css,output)，第二张图是`display: inline-grid`的[效果](https://jsbin.com/qatitav/edit?html,css,output)。
 
-注意，设为网格布局以后，容器的`float`、`display: inline-block`、`display: table-cell`、`vertical-align`和`column-*`这些设置都将失效。
+注意，设为网格布局以后，容器的`float`、`display: inline-block`、`display: table-cell`、`vertical-align`和`column-*`等设置都将失效。
 
 ### grid-template-columns 属性，grid-template-rows 属性
 
@@ -642,10 +634,12 @@ place-self: center center;
 
 ## 参考链接
 
-- https://webdesign.tutsplus.com/articles/new-course-3-css-grid-projects-for-web-designers--cms-27947
 - [A Complete Guide to Grid](https://css-tricks.com/snippets/css/complete-guide-grid/), by Chris House
 - [Understanding the CSS Grid Layout Module](https://webdesign.tutsplus.com/series/understanding-the-css-grid-layout-module--cms-1079), by Ian Yates
 - [How to Build an Off-Canvas Navigation With CSS Grid](https://webdesign.tutsplus.com/tutorials/how-to-build-an-off-canvas-navigation-with-css-grid--cms-28191), Ian Yates
+- [Introduction to the CSS Grid Layout With Examples](https://code.tutsplus.com/tutorials/introduction-to-css-grid-layout-with-examples--cms-25392), Dogacan Bilgili
+- [Learn CSS Grid](http://learncssgrid.com/), Jonathan Suh
+- [How I stopped using Bootstrap’s layout thanks to CSS Grid](https://blog.theodo.fr/2018/03/stop-using-bootstrap-layout-thanks-to-css-grid/), Cédric Kui
 
 ## 两栏式布局
 
