@@ -91,14 +91,26 @@ pre {tab-size: 16;}
 它可以取三个值。
 
 - normal：使用浏览器默认的断行规则
-- break-all：对于非CJK字符，可以任意字符之间断行。
+- break-all：对于非 CJK 字符，可以任意字符之间断行。
 - keep-all：对于 CJK 字符不允许换行。非 CJK 字符与`normal`相同。
 
 ## hyphens
 
-`hyphens`属性控制块级元素之中，文本是否显示连词线。
+浏览器打开连字号功能，需要两个步骤。第一个步骤是设置文本的语言。这将告诉浏览器使用哪个连字词典，正确的自动连字需要一个适合文本语言的连字词典。如果浏览器不知道文本的语言，即使打开 CSS 设置也不会自动连词。
 
-它可以取以下三个值。
+设置网页语言，应该使用`<html>`标签的`lang`属性。
+
+```html
+<html lang="en">
+```
+
+CSS 里面使用自动连词，要开启`hyphens`属性。`hyphens`属性控制块级元素之中，文本是否显示连词线。
+
+```css
+hyphens: auto;
+```
+
+`hyphens`属性可以取以下三个值。
 
 （1） none
 
@@ -114,4 +126,6 @@ pre {tab-size: 16;}
 
 `auto`表示浏览器决定一个词是否可以在断行处拆开，以及是否会有连词线。
 
+## 参考链接
 
+- [All you need to know about hyphenation in CSS](http://clagnut.com/blog/2395), Richard Rutter
