@@ -516,10 +516,10 @@ place-content: space-around space-evenly;
 
 项目的位置是可以指定的，具体方法就是指定项目的四个边框，分别定位在哪根网格线。
 
-- `grid-column-start`属性：左边框所在的垂直网格线
-- `grid-column-end`属性：右边框所在的垂直网格线
-- `grid-row-start`属性：上边框所在的水平网格线
-- `grid-row-end`属性：下边框所在的水平网格线
+> - `grid-column-start`属性：左边框所在的垂直网格线
+> - `grid-column-end`属性：右边框所在的垂直网格线
+> - `grid-row-start`属性：上边框所在的水平网格线
+> - `grid-row-end`属性：下边框所在的水平网格线
 
 ```css
 .item-1 {
@@ -644,7 +644,7 @@ place-content: space-around space-evenly;
 上面代码中，项目`item-1`占据左上角第一个网格。
 
 ### 4.3 grid-area 属性
-d
+
 `grid-area`属性指定项目放在哪一个区域。
 
 ```css
