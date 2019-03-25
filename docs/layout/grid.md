@@ -88,13 +88,9 @@ div {
 
 ![](https://www.wangbase.com/blogimg/asset/201903/bg2019032505.png)
 
-
-
-
-
 上图是`display: inline-grid`的[效果](https://jsbin.com/qatitav/edit?html,css,output)。
 
-注意，设为网格布局以后，容器的`float`、`display: inline-block`、`display: table-cell`、`vertical-align`和`column-*`等设置都将失效。
+> 注意，设为网格布局以后，容器的`float`、`display: inline-block`、`display: table-cell`、`vertical-align`和`column-*`等设置都将失效。
 
 ### 3.2 grid-template-columns 属性，grid-template-rows 属性
 
