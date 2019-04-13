@@ -1,5 +1,9 @@
 # 颜色
 
+## 八位颜色表示法
+
+Chrome 浏览器支持八位的颜色表示法`RRGGBBAA`，前六位是红、绿、蓝颜色值，后两位表示透明度。比如，`#ffffff80`相当于`rgba(255, 255, 255, .5)`。
+
 ## currentColor
 
 `currentColor`是一个属性值，代表当前元素的`color`属性的值。
