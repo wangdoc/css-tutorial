@@ -1,5 +1,32 @@
 # 伪类选择器
 
+## 概述
+
+CSS 2.1非常有限，只提供了三个伪类。
+
+- :active
+- :focus
+- :hover
+
+CSS Selector Level 3添加了更多与HTML表单相关的伪类：
+
+- :enabled
+- :disabled
+- :checked
+- :indeterminate
+
+CSS Basic UI Level 3添加了许多伪类来描述窗口小部件的状态：
+
+- :default
+- :valid
+- :invalid
+- :in-range
+- :out-of-range
+- :required
+- :optional
+- :read-only
+- :read-write
+
 ## :first-child，:last-child
 
 `:first-child`表示一组元素的第一个元素，且该元素必须是父元素的第一个子元素。
