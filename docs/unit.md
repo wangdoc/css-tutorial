@@ -23,7 +23,7 @@ html {
 
 ## em
 
-`em`是一种相对单位，表示一个单位的字体大小，等价于当前元素的像素字体大小。
+`em`是一种相对单位，`1em`等于当前元素的`font-size`。一般来说，浏览器默认的字体大小是16像素，所以`1em`默认等于16像素。
 
 ```css
 h1 { font-size: 20px } /* 1em = 20px */
@@ -32,7 +32,7 @@ p { font-size: 16px } /* 1em = 16px */
 
 上面代码中，对于`h1`元素，`1em`相当于`20px`；对于`p`元素，`1em`相当于`16px`。
 
-如果当前元素没有指定像素字体大小，那么`1em`等于父元素的像素字体大小。
+如果当前元素没有指定字体的像素大小，那么`1em`等于父元素字体的像素大小。这一点非常重要，务必牢记。
 
 ```css
 html { font-size: 16px }
@@ -41,31 +41,25 @@ h1 { font-size: 2em } /* 16px * 2 = 32px */
 
 上面代码中，`h1`元素的字体大小是`2em`，但是它没有指定像素字体大小，因此`2em`等于2倍的父元素像素字体大小，也就是`32px`。
 
-一般来说，浏览器的默认字体大小是`16px`，但是用户可能会改变这个值。因此，最好将根元素的字体大小设成百分比。
+`em`的一大好处是，很容易保持不同元素之间的比例关系，因此它比像素单位更合适用来设定字体大小。
 
 ```css
-html { font-size: 100%; } /* This means 16px by default*/
-
-h1 {
-  font-size: 2em; /* 1em = 16px */
-}
-
-p {
-  font-size: 1em; /* 1em = 16px */
-}
+html { font-size: 100%; }
+h1 { font-size: 2em; }
+p { font-size: 1em; }
 ```
 
-总之，`em`是相对单位，可以由用户调节，并且能够保持不同元素之间的比例关系，因此它比像素单位更合适用来设定字体大小。
+上面代码中，`h1`的字体大小就是`p`的2倍。
 
-由于`em`是基于父元素的，如果父元素的`font-size`的单位也是`em`，就会造成累积效应。
+整个网页的字体大小，如果全部使用`em`单位，不使用像素单位，会引发一个问题。`em`将会基于父元素计算，从而出现累积效应。
 
 ```css
 html { font-size: 100%; } /* 默认是 16px */
-div { font-size: 2em; } /* 1em = 16px */
-p { font-size: 1em; } /* 1em = 32px */
+div { font-size: 2em; } /* 字体大小 32px */
+p { font-size: 1em; } /* 字体大小 32px */
 ```
 
-上面代码中，`html`是`div`的父元素，所以`div`的`1em`等于`html`的`font-size`（`16px`）；`div`是`p`的父元素，所以`p`的`1em`等于`div`的`font-size`（`32px`）。
+上面代码中，`html`是`div`的父元素，所以`div`的`1em`是基于`html`计算的，因此`2em`字体大小等于`32px`。另一方面，`div`是`p`的父元素，所以`p`的`1em`实际上也是`32px`。
 
 除了字体大小，其他许多属性也可以使用`em`，比如`margin`和`padding`，相当于间接由`font-size`决定。
 
@@ -88,43 +82,45 @@ h1 {
 }
 ```
 
-上面代码中，`font-size`是基于父元素计算的，如果父元素的字体大小是`16px`，那么`h1`就是`32px`；`padding`是基于`font-size`计算的，由于`h1`的`font-size`是`32px`，所以`padding`就是`32px`。
+上面代码中，`font-size`是基于父元素计算的，如果父元素的字体大小是`16px`，那么`font-size`就是`32px`；`padding`是基于`font-size`计算的，由于`h1`的`font-size`是`32px`，所以`padding`就是`32px`。
 
-由于以上两个原因（累积效应和计算基点的不同），造成`em`不容易精确控制，实际开发中往往改用`rem`。
+由于以上的累积效应和计算基点差异的原因，造成`em`不容易精确控制，实际开发中往往改用`rem`。
 
 ## rem
 
-`rem`代表根元素的`em`大小（root em），即`<html>`标签的`font-size`属性。它没有累积效应和计算基点的变化，避免了`em`的缺点。
+`rem`单位与`em`几乎完全一致，只有一个差异，它总是等于根元素`<html>`的`font-size`大小，与当前元素或父元素的设置无关，这就避免了`em`的缺陷。
 
 ```css
 h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem; /* 1rem = 16px */
+  font-size: 2rem; /* 1rem = 16px */
+  margin-bottom: 1rem;
 }
 
 p {
-  font-size: 1rem;
-  margin-bottom: 1rem; /* 1rem = 16px */
+  font-size: 1rem; /* 1rem = 16px */
+  margin-bottom: 1rem;
 }
 ```
 
-上面代码中，不管在什么位置，也不管是什么属性，`1rem`的像素大小总是不变的。
+上面代码中，不管`<h1>`和`<p>`在什么位置，`1rem`的大小总是不变的。
 
-那么，什么时候使用`rem`，什么时候使用`em`呢？一个[规则](https://zellwk.com/blog/rem-vs-em/)是字体大小`font-size`使用`rem`，其他必须等比例缩放的属性使用`em`。下面是一个例子。
+那么，何时使用`rem`，何时使用`em`呢？一个[规则](https://zellwk.com/blog/rem-vs-em/)是字体大小`font-size`属性使用`rem`，其他必须等比例缩放的属性使用`em`。下面是一个例子。
 
 ```css
 button {
-    font-size: 0.875rem;
-    padding: .5em 1em;
-    border: .125em solid #e3e3e3;
-    @media (min-width: 48rem){ // min-width: 768px
-      font-size: 1.125rem;
-    }
-    @media (min-width: 62rem){ // min-width: 992px
-      font-size: 1.375rem;
-    }
+  font-size: 0.875rem;
+  padding: .5em 1em;
+  border: .125em solid #e3e3e3;
+  @media (min-width: 48rem){ /* min-width: 768px */
+    font-size: 1.125rem;
+  }
+  @media (min-width: 62rem){ /* min-width: 992px */
+    font-size: 1.375rem;
+  }
 }
 ```
+
+上面代码中，随着屏幕宽度的变化，字体大小会跟着改变，`padding`和`border`会始终保持比例关系。
 
 ## vh，vw
 
