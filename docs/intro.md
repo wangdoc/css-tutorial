@@ -158,3 +158,58 @@ p {
 }
 ```
 
+## 样式表嵌入网页的方法
+
+HTML 网页采用`<link>`标签将 CSS 样式表嵌入网页。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Demo</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  ... ...
+</body>
+</html>
+```
+
+上面代码中，`<link>`标签放在`<head>`内部，`rel="stylesheet"`指明这是样式表，`href`属性给出样式表文件的网址。浏览器解析到这一行代码，就会去加载样式表。
+
+上例的样式表文件是`style.css`。样式表的后缀名通常是`.css`，但也可以是其他后缀名。
+
+网页也可以使用`<style>`标签，直接包含样式规则。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Demo</title>
+    <style>
+    img {
+        border: 4px solid red;
+    }
+    </style>
+</head>
+<body>
+  ... ...
+</body>
+</html>
+```
+
+上面代码中，`<head>`内部的`<style>`标签直接包含了样式规则。
+
+最后，针对某个网页元素的样式，也可以写在该元素的`style`属性。
+
+```html
+<img src="demo.jpg" style="border: 4px solid red;">
+```
+
+上面代码中，`style`属性指定了`img`元素的样式。
+
+`style`属性只对当前元素生效，需要一个个指定，非常麻烦。由于多个样式表可以同时对一个元素生效，`style`属性维护起来非也常困难，所以不建议使用，一般只用于 JavaScript 脚本指定动态样式，以及某些特殊情况。
+
+内联样式由于位于外部样式表和嵌入样式表之后，优先级高于其他所有样式，除非其他地方与之冲突的样式标记了`!important`。
