@@ -1,5 +1,29 @@
 # 伪类选择器
 
+伪元素（pseudo-element）是 HTML 中并不存在的元素。例如，定义第一个字母或第一行文字时，并未在HTML中作相应的标记。
+
+伪类（pseudo-class）则应用于一组 HTML 元素，而你无需在 HTML 代码中用类标记它们。例如，使用:first-child可以选择某元素的第一个子元素，你就不用写成class="first-child"。更多关于伪类的内容。
+
+伪元素有四个。
+
+- ::first-line
+- ::first-letter
+- ::before
+- ::after
+
+伪类
+
+- :first-child
+- :link：新的、未访问的链接
+- :visited：访问过的链接
+- :focus：链接获得焦点（如通过Tab键）
+- :hover：当访问者将鼠标指针停留在链接上时
+- :active: 当访问者激活链接时
+
+新的、未访问的链接显示为红色；访问过的链接变为橙色；
+
+
+
 ## 概述
 
 CSS 2.1非常有限，只提供了三个伪类。
