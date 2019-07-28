@@ -1,5 +1,15 @@
 # 字体
 
+## 字体文件类型
+
+内嵌OpenType（Embedded OpenType，.eot）。在使用@font-face时，Internet Explorer 8及之前的版本仅支持内嵌OpenType。内嵌OpenType是Microsoft的一项专有格式，它使用数字版权管理技术防止在未经许可的情况下使用字体。
+
+TrueType（.ttf）和OpenType（.otf），台式机使用的标准字体文件类型。TrueType和OpenType得到了Mozilla Firefox（3.5及之后的版本）、Opera（10及之后的版本）、Safari（3.1及之后的版本）、Mobile Safari（iOS 4.2及之后的版本）、Google Chrome（4.0及之后的版本）及Internet Explorer（9及之后的版本）的广泛支持。这些格式不使用数字版权管理。
+
+Web开放字体格式（Web Open Font Format，.woff）。这种较新的标准是专为Web字体设计的。Web开放字体格式的字体是经压缩的TrueType字体或OpenType字体。WOFF格式还允许在文件上附加额外的元数据。字体设计人员或厂商可以利用这些元数据，在原字体信息的基础上，添加额外的许可证或其他信息。这些元数据不会以任何方式影响字体的表现，但经用户请求，这些元数据可以呈现出来。Mozilla Firefox（3.6及之后的版本）、Opera（11.1及之后的版本）、Safari（5.1及之后的版本）、Google Chrome（6.0及之后的版本）及Internet Explorer（9及之后的版本）均支持Web开放字体格式。
+
+可缩放矢量图形（Scalable Vector Graphics，.svg）。简言之，应避免对Web字体文件使用SVG。它更多地用于早期Web字体，因为它是iOS 4.1上移动Safari唯一支持的格式（还有可能引起一些崩溃的情况）。从iOS 4.2（于2011年初即被广泛使用）起，移动Safari开始支持TrueType。
+
 ## font-size
 
 `font-size`属性用于设置网页的字体大小。
