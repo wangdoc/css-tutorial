@@ -19,6 +19,7 @@
 - :focus：链接获得焦点（如通过Tab键）
 - :hover：当访问者将鼠标指针停留在链接上时
 - :active: 当访问者激活链接时
+- :empty：空选择器
 
 新的、未访问的链接显示为红色；访问过的链接变为橙色；
 
@@ -201,4 +202,75 @@ li::nth-of-type(odd)  {
   background: lightslategrey;
 }
 ```
+
+## 空选择器
+
+`:empty`是空选择器，匹配没有任何子节点的元素。
+
+```css
+p:empty {
+  color: red;
+}
+```
+
+下面的 HTML 代码都匹配`:empty`选择器。
+
+```html
+<!-- 闭合标签之间没有空格 -->
+<p></p>
+
+<!-- 闭合标签之间只有注释 -->
+<p><!-- comment --></p>
+```
+
+下面的 HTML 代码都不匹配`:empty`选择器。
+
+```html
+<!-- 闭合标签之间有空格 -->
+<p></p>
+
+<!-- 闭合标签之间有换行符 -->
+<p>
+<!-- comment -->
+</p>
+
+<!-- 闭合标签有子元素 -->
+<p><span></span></p>
+```
+
+这个选择器的一个作用，就是使用脚本动态添加子元素后，将该元素显示出来。
+
+```html
+<!-- No error message -->
+<div class="error"></div>
+
+<!-- Yes error message -->
+<div class="error">Missing Email</div>
+```
+
+上面代码中，为`<div>`标签添加文本内容后，使用下面的 CSS 代码将其显示出来。
+
+```css
+.error:empty {
+  display: none;
+}
+
+.error:before {
+  color: red;
+  content: "\0274c "; /* ❌ icon */
+}
+```
+
+选中非空元素可以像下面这样写。
+
+```css
+.alert:not(:empty) {
+  background: pink;
+  padding: 10px;
+}
+```
+
+## 参考链接
+
+- [CSS :empty Selector](https://www.samanthaming.com/tidbits/72-css-empty-selector), Samantha Ming
 
