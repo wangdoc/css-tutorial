@@ -1,10 +1,12 @@
 # CSS高级功能
 
-## 变量
+## 自定义属性
 
-CSS 提供的属性（比如`font-weight`、`line-height`）都是标准里面给出的，但是 CSS 也允许用户自定义属性，这又称为“CSS 变量”。
+CSS 提供的属性（比如`font-weight`、`line-height`）都是标准给定的，但是 CSS 也允许用户自定义属性，这又称为“CSS 变量”。
 
-`:root`选择器之中，可以设置CSS变量并赋值。
+自定义属性跟普通属性一样，也是定义在某个选择器里面，而且只对该选择器有效。因此自定义属性所在区块，相当于变量的作用域。
+
+`:root`选择器之中，可以设置全局的自定义属性。
 
 ```css
 :root {
@@ -22,7 +24,7 @@ CSS 提供的属性（比如`font-weight`、`line-height`）都是标准里面�
 
 所有自定义属性都必须以两个连词线开头，并且大小写敏感。
 
-使用时，通过`var`函数取出变量。
+使用时，通过`var()`函数取出变量。
 
 ```css
 img {
@@ -33,7 +35,7 @@ img {
 }
 ```
 
-`var()`函数接受第二个参数，指定如果读取变量失败时的默认值。
+`var()`函数接受第二个参数，指定默认值。如果某个自定义属性没有设置，默认值就会生效。
 
 ```css
 width: var(--custom-width, 20%);
@@ -43,9 +45,29 @@ width: var(--custom-width, 20%);
 
 ```css
 foo {
-    padding: var(--gutter, 10px 0 0 5px);
+  padding: var(--gutter, 10px 0 0 5px);
 }
 ```
+
+如果默认值包含逗号，那么`var()`会将第一个逗号后面的所有值，当作默认值。
+
+```css
+.someElement {
+  font-family: var(--main-font, "lucida grande" , tahoma, Arial);
+}
+```
+
+上面代码中，`--main-font`的默认值是`"lucida grande" , tahoma, Arial`。
+
+`var()`内部还可以使用`var()`。
+
+```css
+.someElement {
+  background-color: var(--first-color, var(--second-color, white));
+}
+```
+
+上面代码中，如果没有设置`--first-color`，默认值`var(--second-color, white)`就会生效。如果`--second-color`也没有设置，那么`white`就会生效。
 
 自定义属性可以是全局的，也可以是局部的。在`:root`选择器里面定义的，就是全局变量，可以在任何其他选择器里面读取。而在其他选择器里面定义，就是局部变量，只能在该选择器里面读取。
 
@@ -97,20 +119,13 @@ div { --text-color: blue; }
 }
 ```
 
-## 参考链接
-
-- [CSS Variables Guide](https://nearsoft.com/blog/css-variables-guide/), Tony Martinez
-
 JavaScript 可以操作这些变量。
 
 ```javascript
-element.style
-  .setProperty('--my-color', 'rebeccapurple');
-element.style
-  .getPropertyValue('--my-color');
-// => 'rebeccapurple'
-element.style
-  .removeProperty('--my-color');
+element.style.setProperty('--my-color', 'rebeccapurple');
+element.style.getPropertyValue('--my-color');
+// "rebeccapurple"
+element.style.removeProperty('--my-color');
 ```
 
 下面是例子。
@@ -153,6 +168,10 @@ function handleUpdate(e) {
   document.documentElement.style.setProperty(`--${this.id}`, this.value + suffix);
 }
 ```
+
+## 参考链接
+
+- [CSS Variables Guide](https://nearsoft.com/blog/css-variables-guide/), Tony Martinez
 
 ## supports
 
