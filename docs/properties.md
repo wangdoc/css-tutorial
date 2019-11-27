@@ -1,5 +1,180 @@
 # CSS 属性
 
+## `inherit`属性值
+
+CSS 的许多属性可以继承，即子元素默认继承父元素的属性。比如，`body`元素的字体样式，可以被页面的所有元素继承。
+
+```css
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+```
+
+上面代码中，`body`设置了`font-family`了，它的后代元素就不用设置这个属性了，除非需要改变字体。
+
+根据标准，以下 CSS 属性可以继承。
+
+1.  `azimuth`
+2.  `border-collapse`
+3.  `border-spacing`
+4.  `caption-side`
+5.  `color`
+6.  `cursor`
+7.  `direction`
+8.  `elevation`
+9.  `empty-cells`
+10.  `font-family`
+11.  `font-size`
+12.  `font-style`
+13.  `font-variant`
+14.  `font-weight`
+15.  `font`
+16.  `letter-spacing`
+17.  `line-height`
+18.  `list-style-image`
+19.  `list-style-position`
+20.  `list-style-type`
+21.  `list-style`
+22.  `orphans`
+23.  `pitch-range`
+24.  `pitch`
+25.  `quotes`
+26.  `richness`
+27.  `speak-header`
+28.  `speak-numeral`
+29.  `speak-punctuation`
+30.  `speak`
+31.  `speech-rate`
+32.  `stress`
+33.  `text-align`
+34.  `text-indent`
+35.  `text-transform`
+36.  `visibility`
+37.  `voice-family`
+38.  `volume`
+39.  `white-space`
+40.  `widows`
+41.  `word-spacing`
+
+其他属性默认不能继承，比如`border`属性。父元素设置了`border`以后，子元素如果要有边框，必须重新设一遍。
+
+```css
+.main-list {
+  border: 1rem solid #000;
+  color: red;
+  font-family: Verdana
+}
+
+.sub-list {
+  border: 1rem solid #000;
+}
+```
+
+上面代码中，`.sum-list`是`.main-list`的子元素，两者的边框必须各自设置。
+
+CSS 提供了`inherit`属性值，如果要让子元素继承父元素的属性，可以使用这个属性值。
+
+```css
+.main-list {
+  border: 1rem solid #000;
+  color: red;
+  font-family: Verdana;
+}
+
+.sub-list {
+  border: inherit;
+}
+```
+
+上面代码中，`.sub-list`的`border`属性，就继承了`.main-list`，从而两者的边框都一样。它的好处是，如果要修改边框，只要修改一处即可。
+
+## initial 属性值
+
+`initial`属性值可以将 CSS 属性设回初始值。它的主要用处是，让那些默认继承父元素的 CSS 属性不再继承，回到初始值。
+
+```css
+.berries {
+  border: 1rem solid #000;
+  color: red;
+  font-family: Verdana;
+  margin-bottom: 10px;
+}
+
+.berries h1 {
+  color: initial;
+}
+```
+
+上面代码中，`.berries`是`h1`的父元素，而`color`属性是可以继承的，如果不设置`h1`的颜色，`h1`就会是红色的。现在`h1`的`color`设为`initial`，就不再继承父元素的颜色，而是回到浏览器给予`h1`的默认颜色，即黑色。
+
+## unset 属性值
+
+`unset`属性值的作用是，如果存在继承，则继承父元素的值（等同于`inherit`），如果不存在继承，则重置为初始值（等同于`initial`）。`unset`的意思，就是去除当前样式表对该元素的样式设置。
+
+```css
+h1 {
+  color: blue;
+}
+
+div {
+  border: 1rem solid #000;
+  color: red;
+  font-family: Verdana;
+  margin-bottom: 10px;
+}
+
+.berries h1 {
+  color: unset;
+}
+```
+
+上面代码中，`div`是`h1`的父元素，如果不设置`.berries h1`的`color`属性，`h1`会显示为蓝色，设成`color: unset`以后，`h1`继承了父元素的`color`，显示为红色。
+
+`unset`与`inherit`的区别在于，如果不设置`div`的`color`，那么`.berries h1`将显示为浏览器赋予的默认颜色（黑色），而不是红色。
+
+```css
+h1 {
+  color: blue;
+}
+
+div {
+  border: 1rem solid #000;
+  font-family: Verdana;
+  margin-bottom: 10px;
+}
+
+.berries h1 {
+  color: unset;
+}
+```
+
+上面代码中，父元素`div`没有设置颜色，这时子元素`.berries h1`将显示为浏览器默认颜色（黑色），而不是蓝色。
+
+## revert 属性值
+
+`revert`属性值用于消除当前样式表对该元素设置的样式，这也是它名字的含义（`还原`），基本等同于`unset`。具体来说，如果存在继承，该元素会显示继承的属性值，如果不存在继承，则分成以下两种情况。
+
+- `revert`用在网站提供的样式表：则显示用户演示表设置的值。如果不存在用户样式表，则浏览器赋予的默认值。
+- `revert`用在用户提供的样式表：显示浏览器赋予的默认值。
+
+我们知道，样式表可以分成三层：用户提供的样式表，可以覆盖网站提供的样式表；网站提供的样式表，又可以覆盖浏览器的默认样式表。`revert`主要针对的就是多层样式表同时存在的情况，然后用于去除本层样式表对元素的影响。
+
+大多数情况下，`revert`与`unset`是一样的，主要差异是 CSS 属性的初始值与浏览器的默认值可能有差异。
+
+```html
+<h3 style="font-weight: unset;">hello</h3>
+<h3 style="font-weight: revert;">hello</h3>
+```
+
+上面代码中，`font-weight: unset`会回到`font-weight`的初始值，即`normal`。而`<font-weight: revert>`会回到浏览器对`h3`的`font-weight`默认值，一般是粗体。
+
+如果想要清除当前样式表对该元素的所有设置，可以使用`all: revert`。
+
+```html
+<h3 style="all: revert;">hello</h3>
+```
+
+
 ## background-blend-mode
 
 background-blend-mode属性指定背景的颜色混合模式，共有16个值可取：normal（默认值，即不混合）, multiply, screen, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, hue, saturation, color and luminosity（显示单色效果）。
