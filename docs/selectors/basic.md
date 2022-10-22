@@ -24,10 +24,10 @@ ID 选择器的特殊性比class选择器要强得多。这意味着如果要覆
 
 ## :matches()
 
-`:matches(A, B)`选择器表示匹配A或B。
+`:is(A, B)`选择器表示匹配A或B。
 
 ```css
-:matches(.foo, .bar) {
+:is(.foo, .bar) {
   background-color: green;
 }
 
@@ -48,7 +48,7 @@ ID 选择器的特殊性比class选择器要强得多。这意味着如果要覆
 
 /* 等同于 */
 
-.syntax-highlighted :matches(.css-keyword, .css-tag) {
+.syntax-highlighted :is(.css-keyword, .css-tag) {
   color: rgb(170, 13, 145);
 }
 ```
